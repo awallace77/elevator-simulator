@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Elevator</class>
+ <widget class="QWidget" name="Elevator">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>183</width>
+    <height>261</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">margin:0px;</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,5,0,0">
+   <item>
+    <widget class="QLabel" name="elevatorLabel">
+     <property name="text">
+      <string>Elevator 1</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="elevator">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+      </layout>
+     </item>
+     <item row="0" column="1">
+      <layout class="QVBoxLayout" name="elevatorInfoVLayout">
+       <item>
+        <widget class="QLabel" name="elevatorFloorLabel">
+         <property name="text">
+          <string>Floor 1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="elevatorStateLabel">
+         <property name="text">
+          <string>State</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="elevatorCapactiyLabel">
+         <property name="text">
+          <string>Capacity</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="elevatorDirectionLabel">
+         <property name="text">
+          <string>Direction</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="elevatorIndoorLayout"/>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

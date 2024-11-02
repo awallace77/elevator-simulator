@@ -9,14 +9,71 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    BuildingSetting.cpp \
+    CloseButton.cpp \
+    Display.cpp \
+    Door.cpp \
+    Elevator.cpp \
+    ElevatorSetting.cpp \
+    Floor.cpp \
+    FloorButton.cpp \
+    HelpButton.cpp \
+    MainWindow.cpp \
+    OpenButton.cpp \
+    Passenger.cpp \
+    PassengerSetting.cpp \
+    Simulation.cpp \
+    Speaker.cpp \
     main.cpp \
-    mainwindow.cpp
+    ElevatorControl.cpp \
+    NCStrategy.cpp \
+    FloorRequest.cpp \
+    SimulationManager.cpp
 
 HEADERS += \
-    mainwindow.h
+    BuildingSetting.h \
+    CloseButton.h \
+    Display.h \
+    Door.h \
+    Elevator.h \
+    ElevatorSetting.h \
+    Floor.h \
+    FloorButton.h \
+    HelpButton.h \
+    MainWindow.h \
+    ElevatorState.h \
+    Direction.h \
+    DoorState.h \
+    OpenButton.h \
+    Passenger.h \
+    PassengerState.h \
+    PassengerSetting.h \
+    Simulation.h \
+    SimulationComponent.h \
+    Button.h \
+    Speaker.h \
+    ElevatorControl.h \
+    AllocationStrategy.h \
+    NCStrategy.h \
+    FloorRequest.h \
+    SimulationManager.h \
+    Random.h
 
 FORMS += \
-    mainwindow.ui
+    CloseButton.ui \
+    Display.ui \
+    Door.ui \
+    Elevator.ui \
+    ElevatorSetting.ui \
+    Floor.ui \
+    FloorButton.ui \
+    HelpButton.ui \
+    MainWindow.ui \
+    OpenButton.ui \
+    Passenger.ui \
+    PassengerSetting.ui \
+    Simulation.ui \
+    Speaker.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
