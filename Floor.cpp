@@ -2,7 +2,7 @@
 #include "ui_Floor.h"
 #include <QDebug>
 
-Floor::Floor(int floorNum, QWidget *parent) :
+Floor::Floor(int floorNum, ElevatorControl *ecs, QWidget *parent) :
     SimulationComponent(parent),
     ui(new Ui::Floor)
 {
@@ -10,8 +10,9 @@ Floor::Floor(int floorNum, QWidget *parent) :
     this->floorNum = floorNum;
     this->upButton = new FloorButton(*this, Direction::Up, this);
     this->downButton = new FloorButton(*this, Direction::Down, this);
+    this->ecs = ecs;
 
-    this->initUI();
+    Floor::initUI();
 }
 
 Floor::~Floor() {
@@ -21,8 +22,8 @@ Floor::~Floor() {
 }
 
 void Floor::inform(Direction direction) {
-    // TODO: send this information to the ECS
     qInfo() << "Informed about direction";
+    ecs->floorRequest(this->getFloorNum(), direction);
 }
 
 void Floor::serviced(Direction direction) {
@@ -44,6 +45,10 @@ void Floor::setFloorNum(int num) {
     this->floorNum = num;
 }
 
+int Floor::getFloorNum() const {
+    return this->floorNum;
+}
+
 void Floor::updateUI() {
     ui->label->setText(QString("Floor %1").arg(this->floorNum));
     this->upButton->updateUI();
@@ -51,7 +56,16 @@ void Floor::updateUI() {
 }
 
 void Floor::initUI() {
-    this->updateUI();
+    Floor::updateUI();
     ui->buttonLayout->addWidget(upButton);
     ui->buttonLayout->addWidget(downButton);
 }
+
+FloorButton* Floor::getFloorUpButton() const {
+    return this->upButton;
+}
+
+FloorButton* Floor::getFloorDownButton() const {
+    return this->downButton;
+}
+

@@ -7,7 +7,7 @@ HelpButton::HelpButton(Elevator &elevator, QWidget *parent) :
     elevator(elevator)
 {
     ui->setupUi(this);
-    this->initUI();
+    HelpButton::initUI();
 
 }
 
@@ -25,5 +25,5 @@ void HelpButton::updateUI() {
 }
 
 void HelpButton::initUI() {
-    this->updateUI();
+    HelpButton::updateUI();
 }

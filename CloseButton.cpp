@@ -7,7 +7,7 @@ CloseButton::CloseButton(Elevator &elevator, QWidget *parent) :
     elevator(elevator)
 {
     ui->setupUi(this);
-    this->initUI();
+    CloseButton::initUI();
 }
 
 CloseButton::~CloseButton() {
@@ -24,6 +24,6 @@ void CloseButton::updateUI() {
 }
 
 void CloseButton::initUI() {
-    this->updateUI();
+    CloseButton::updateUI();
 }
 

@@ -1,37 +1,45 @@
 #include "Simulation.h"
 #include "ui_Simulation.h"
 
-Simulation::Simulation(QWidget *parent) :
+Simulation::Simulation(
+	std::vector<ElevatorSetting*> elevatorSettings,
+	std::vector<PassengerSetting*> passengerSettings,
+	BuildingSetting* buildingSetting,
+	int numElevators,
+	int numPassengers,
+    int numFloors,
+	QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Simulation) {
     ui->setupUi(this);
-    ecs = new ElevatorControl();
+    this->init(elevatorSettings, passengerSettings, buildingSetting, numElevators, numPassengers, numFloors);
 }
 
 Simulation::~Simulation() {
     delete ui;
-    for(auto &elevator : elevators) delete elevator;
-    for(auto &passenger : passengers) delete passenger;
-    for(auto &floor : floors) delete floor;
-    delete ecs;
 }
-
 
 // Running Simulation
 void Simulation::start(
-    std::vector<ElevatorSetting*> elevatorSettings,
-    std::vector<PassengerSetting*> passengerSettings,
-    BuildingSetting* buildingSetting,
-    int numElevators,
-    int numPassengers,
-    int numFloors
+    //std::vector<ElevatorSetting*> elevatorSettings,
+    //std::vector<PassengerSetting*> passengerSettings,
+    //BuildingSetting* buildingSetting,
+    //int numElevators,
+    //int numPassengers,
+    //int numFloors
 ){
-    this->init(elevatorSettings, passengerSettings, buildingSetting, numElevators, numPassengers, numFloors);
-    this->startSimulation();
+    //this->startSimulation();
+    //this->end();
 }
 
 void Simulation::startSimulation() {
     qInfo() << "Simulation Started";
+    bool run = true;
+    int turn = 1;
+    while(run){
+	simManager->runTurn(turn++);
+	if(turn == 3) run = false;
+    }
 }
 
 // Initialization
@@ -48,44 +56,108 @@ void Simulation::init(
     for(auto &setting : passengerSettings) this->passengerSettings.push_back(setting);
     this->buildingSetting = buildingSetting;
 
+    ecs = new ElevatorControl();
     this->initElevators(elevatorSettings, numElevators);
     this->initPassengers(passengerSettings, numPassengers);
     this->initFloors(numFloors);
+    ecs->init(elevators, numFloors);
+
+    simManager = new SimulationManager(
+	elevators,
+	passengers,
+	floors,
+	elevatorSettings,
+	passengerSettings,
+	buildingSetting,
+	ecs
+    );
+    this->initUI();
+}
+
+void Simulation::end() {
+    for(auto &elevator : elevators) delete elevator;
+    for(auto &passenger : passengers) delete passenger;
+    for(auto &floor : floors) delete floor;
+    delete simManager;
+    delete ecs;
+    qInfo() << "Simulation ended";
 }
 
 void Simulation::initElevators(std::vector<ElevatorSetting*> settings, int num){
     qInfo() << "initalizing elevators";
+   
+    this->elevators.clear();
+    for(std::vector<ElevatorSetting*>::size_type i = 0; i < settings.size(); i++){
+	this->addElevator(i, 0, settings[i]->getCapacity(), ecs, this);
+	// elevator num, floorNum, capacity, QWidget *parent
+    }
 }
 
 void Simulation::initPassengers(std::vector<PassengerSetting*> settings, int num){
     qInfo() << "initalizing passengers";
+    this->passengers.clear();
+    for(std::vector<ElevatorSetting*>::size_type i = 0; i < settings.size(); i++){
+	this->addPassenger(i, settings[i]->getStartFloor(), settings[i]->getDestinationFloor(), this);
+	// elevator num, floorNum, destinationFloor, QWidget *parent
+    }
 }
 
 void Simulation::initFloors(int num){
     qInfo() << "initalizing floors";
+    this->floors.clear();
+    for(int i = 0; i < num; i++){
+	this->addFloor(i, ecs, this);
+    }
 }
 
-void Simulation::addElevator(int num) {
-    Elevator *newElevator = new Elevator(num, num, num, this);
+void Simulation::addElevator(int num, int floorNum, int capacity, ElevatorControl *ecs, QWidget *parent) {
+    Elevator *newElevator = new Elevator(num, floorNum, capacity, ecs, parent);
     this->elevators.push_back(newElevator);
 }
 
-void Simulation::addPassenger(int num) {
-    Passenger *newPassenger = new Passenger(num, num, num, this);
+void Simulation::addPassenger(int num, int floorNum, int destFloor, QWidget *parent) {
+    Passenger *newPassenger = new Passenger(num, floorNum, destFloor, parent);
     this->passengers.push_back(newPassenger);
 }
 
-void Simulation::addFloor(int num) {
-    Floor *newFloor = new Floor(num, this);
+void Simulation::addFloor(int num, ElevatorControl *ecs, QWidget *parent) {
+    Floor *newFloor = new Floor(num, ecs, parent);
     this->floors.push_back(newFloor);
 }
 
 // UI 
+void Simulation::initUI() {
+    this->clearSimulation();
+    this->updateElevators();
+    this->updatePassengers();
+    this->updateFloors();
+}
+
 void Simulation::updateElevators() {
-    this->elevators.clear();
-    for(int i = 0; i < numElevators; i++){
-	this->addElevator(i);
+    for(auto &elevator : this->elevators){
+        //elevator->show();
+    ui->elevatorLayout->addWidget(elevator);
     }
+}
+
+void Simulation::updatePassengers() {
+    for(auto &passenger : this->passengers){
+    //passenger->show();
+	ui->passengerLayout->addWidget(passenger);
+    }
+}
+
+void Simulation::updateFloors() {
+    for(auto &floor : this->floors){
+    //floor->show();
+	ui->floorLayout->addWidget(floor);
+    }
+}
+
+void Simulation::clearSimulation(){
+    this->clearLayout(ui->elevatorLayout);
+    this->clearLayout(ui->passengerLayout);
+    this->clearLayout(ui->floorLayout);
 }
 
 void Simulation::clearLayout(QLayout *layout) {
@@ -103,3 +175,4 @@ void Simulation::clearLayout(QLayout *layout) {
         delete item;
     }
 }
+

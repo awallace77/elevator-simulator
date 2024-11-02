@@ -68,7 +68,10 @@ SOURCES       = BuildingSetting.cpp \
 		Simulation.cpp \
 		Speaker.cpp \
 		main.cpp \
-		ElevatorControl.cpp moc_CloseButton.cpp \
+		ElevatorControl.cpp \
+		NCStrategy.cpp \
+		FloorRequest.cpp \
+		SimulationManager.cpp moc_CloseButton.cpp \
 		moc_Display.cpp \
 		moc_Door.cpp \
 		moc_Elevator.cpp \
@@ -101,6 +104,9 @@ OBJECTS       = BuildingSetting.o \
 		Speaker.o \
 		main.o \
 		ElevatorControl.o \
+		NCStrategy.o \
+		FloorRequest.o \
+		SimulationManager.o \
 		moc_CloseButton.o \
 		moc_Display.o \
 		moc_Door.o \
@@ -215,7 +221,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		SimulationComponent.h \
 		Button.h \
 		Speaker.h \
-		ElevatorControl.h BuildingSetting.cpp \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		NCStrategy.h \
+		FloorRequest.h \
+		SimulationManager.h \
+		Random.h BuildingSetting.cpp \
 		CloseButton.cpp \
 		Display.cpp \
 		Door.cpp \
@@ -231,7 +242,10 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		Simulation.cpp \
 		Speaker.cpp \
 		main.cpp \
-		ElevatorControl.cpp
+		ElevatorControl.cpp \
+		NCStrategy.cpp \
+		FloorRequest.cpp \
+		SimulationManager.cpp
 QMAKE_TARGET  = ElevatorSimulator
 DESTDIR       = 
 TARGET        = ElevatorSimulator
@@ -415,8 +429,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents BuildingSetting.h CloseButton.h Display.h Door.h Elevator.h ElevatorSetting.h Floor.h FloorButton.h HelpButton.h MainWindow.h ElevatorState.h Direction.h DoorState.h OpenButton.h Passenger.h PassengerState.h PassengerSetting.h Simulation.h SimulationComponent.h Button.h Speaker.h ElevatorControl.h $(DISTDIR)/
-	$(COPY_FILE) --parents BuildingSetting.cpp CloseButton.cpp Display.cpp Door.cpp Elevator.cpp ElevatorSetting.cpp Floor.cpp FloorButton.cpp HelpButton.cpp MainWindow.cpp OpenButton.cpp Passenger.cpp PassengerSetting.cpp Simulation.cpp Speaker.cpp main.cpp ElevatorControl.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents BuildingSetting.h CloseButton.h Display.h Door.h Elevator.h ElevatorSetting.h Floor.h FloorButton.h HelpButton.h MainWindow.h ElevatorState.h Direction.h DoorState.h OpenButton.h Passenger.h PassengerState.h PassengerSetting.h Simulation.h SimulationComponent.h Button.h Speaker.h ElevatorControl.h AllocationStrategy.h NCStrategy.h FloorRequest.h SimulationManager.h Random.h $(DISTDIR)/
+	$(COPY_FILE) --parents BuildingSetting.cpp CloseButton.cpp Display.cpp Door.cpp Elevator.cpp ElevatorSetting.cpp Floor.cpp FloorButton.cpp HelpButton.cpp MainWindow.cpp OpenButton.cpp Passenger.cpp PassengerSetting.cpp Simulation.cpp Speaker.cpp main.cpp ElevatorControl.cpp NCStrategy.cpp FloorRequest.cpp SimulationManager.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents CloseButton.ui Display.ui Door.ui Elevator.ui ElevatorSetting.ui Floor.ui FloorButton.ui HelpButton.ui MainWindow.ui OpenButton.ui Passenger.ui PassengerSetting.ui Simulation.ui Speaker.ui $(DISTDIR)/
 
 
@@ -465,6 +479,10 @@ moc_CloseButton.cpp: CloseButton.h \
 		OpenButton.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include CloseButton.h -o moc_CloseButton.cpp
@@ -495,6 +513,10 @@ moc_Elevator.cpp: Elevator.h \
 		Elevator.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include Elevator.h -o moc_Elevator.cpp
@@ -510,6 +532,19 @@ moc_Floor.cpp: Floor.h \
 		FloorButton.h \
 		Button.h \
 		Floor.h \
+		ElevatorControl.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		Display.h \
+		Speaker.h \
+		OpenButton.h \
+		CloseButton.h \
+		HelpButton.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include Floor.h -o moc_Floor.cpp
@@ -520,6 +555,19 @@ moc_FloorButton.cpp: FloorButton.h \
 		Direction.h \
 		Floor.h \
 		FloorButton.h \
+		ElevatorControl.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		Display.h \
+		Speaker.h \
+		OpenButton.h \
+		CloseButton.h \
+		HelpButton.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include FloorButton.h -o moc_FloorButton.cpp
@@ -537,6 +585,10 @@ moc_HelpButton.cpp: HelpButton.h \
 		OpenButton.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include HelpButton.h -o moc_HelpButton.cpp
@@ -558,11 +610,15 @@ moc_MainWindow.cpp: MainWindow.h \
 		Button.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		Passenger.h \
 		PassengerState.h \
 		Floor.h \
 		FloorButton.h \
-		ElevatorControl.h \
+		SimulationManager.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include MainWindow.h -o moc_MainWindow.cpp
@@ -580,6 +636,10 @@ moc_OpenButton.cpp: OpenButton.h \
 		OpenButton.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include OpenButton.h -o moc_OpenButton.cpp
@@ -614,11 +674,15 @@ moc_Simulation.cpp: Simulation.h \
 		Button.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		Passenger.h \
 		PassengerState.h \
 		Floor.h \
 		FloorButton.h \
-		ElevatorControl.h \
+		SimulationManager.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/student/Documents/a3/ElevatorSimulator/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/student/Documents/a3/ElevatorSimulator -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include Simulation.h -o moc_Simulation.cpp
@@ -728,6 +792,10 @@ CloseButton.o: CloseButton.cpp CloseButton.h \
 		Direction.h \
 		OpenButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		ui_CloseButton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CloseButton.o CloseButton.cpp
 
@@ -754,6 +822,10 @@ Elevator.o: Elevator.cpp Elevator.h \
 		Button.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		ui_Elevator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Elevator.o Elevator.cpp
 
@@ -766,6 +838,19 @@ Floor.o: Floor.cpp Floor.h \
 		Direction.h \
 		FloorButton.h \
 		Button.h \
+		ElevatorControl.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		Display.h \
+		Speaker.h \
+		OpenButton.h \
+		CloseButton.h \
+		HelpButton.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		ui_Floor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Floor.o Floor.cpp
 
@@ -774,6 +859,19 @@ FloorButton.o: FloorButton.cpp FloorButton.h \
 		SimulationComponent.h \
 		Direction.h \
 		Floor.h \
+		ElevatorControl.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		Display.h \
+		Speaker.h \
+		OpenButton.h \
+		CloseButton.h \
+		HelpButton.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		ui_FloorButton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FloorButton.o FloorButton.cpp
 
@@ -789,6 +887,10 @@ HelpButton.o: HelpButton.cpp HelpButton.h \
 		Direction.h \
 		OpenButton.h \
 		CloseButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		ui_HelpButton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o HelpButton.o HelpButton.cpp
 
@@ -809,11 +911,15 @@ MainWindow.o: MainWindow.cpp MainWindow.h \
 		Button.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		Passenger.h \
 		PassengerState.h \
 		Floor.h \
 		FloorButton.h \
-		ElevatorControl.h \
+		SimulationManager.h \
 		ui_MainWindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o MainWindow.o MainWindow.cpp
 
@@ -829,6 +935,10 @@ OpenButton.o: OpenButton.cpp OpenButton.h \
 		Direction.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		ui_OpenButton.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o OpenButton.o OpenButton.cpp
 
@@ -860,11 +970,15 @@ Simulation.o: Simulation.cpp Simulation.h \
 		Button.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		Passenger.h \
 		PassengerState.h \
 		Floor.h \
 		FloorButton.h \
-		ElevatorControl.h \
+		SimulationManager.h \
 		ui_Simulation.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Simulation.o Simulation.cpp
 
@@ -890,15 +1004,83 @@ main.o: main.cpp MainWindow.h \
 		Button.h \
 		CloseButton.h \
 		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
 		Passenger.h \
 		PassengerState.h \
 		Floor.h \
 		FloorButton.h \
-		ElevatorControl.h
+		SimulationManager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-ElevatorControl.o: ElevatorControl.cpp ElevatorControl.h
+ElevatorControl.o: ElevatorControl.cpp ElevatorControl.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		SimulationComponent.h \
+		Display.h \
+		Speaker.h \
+		Direction.h \
+		OpenButton.h \
+		Button.h \
+		CloseButton.h \
+		HelpButton.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
+		Random.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ElevatorControl.o ElevatorControl.cpp
+
+NCStrategy.o: NCStrategy.cpp NCStrategy.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		Direction.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		SimulationComponent.h \
+		Display.h \
+		Speaker.h \
+		OpenButton.h \
+		Button.h \
+		CloseButton.h \
+		HelpButton.h \
+		ElevatorControl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o NCStrategy.o NCStrategy.cpp
+
+FloorRequest.o: FloorRequest.cpp FloorRequest.h \
+		Direction.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o FloorRequest.o FloorRequest.cpp
+
+SimulationManager.o: SimulationManager.cpp SimulationManager.h \
+		Elevator.h \
+		ElevatorState.h \
+		Door.h \
+		DoorState.h \
+		SimulationComponent.h \
+		Display.h \
+		Speaker.h \
+		Direction.h \
+		OpenButton.h \
+		Button.h \
+		CloseButton.h \
+		HelpButton.h \
+		ElevatorControl.h \
+		AllocationStrategy.h \
+		FloorRequest.h \
+		NCStrategy.h \
+		Passenger.h \
+		PassengerState.h \
+		Floor.h \
+		FloorButton.h \
+		ElevatorSetting.h \
+		PassengerSetting.h \
+		BuildingSetting.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o SimulationManager.o SimulationManager.cpp
 
 moc_CloseButton.o: moc_CloseButton.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CloseButton.o moc_CloseButton.cpp

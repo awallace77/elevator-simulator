@@ -6,7 +6,7 @@ Display::Display(QWidget *parent, QString msg) :
     ui(new Ui::Display) {
     ui->setupUi(this);
     this->setMessage(msg);
-    this->initUI();
+    Display::initUI();
 }
 
 Display::~Display() {
@@ -26,6 +26,6 @@ void Display::updateUI() {
 }
 
 void Display::initUI() {
-    this->updateUI();
+    Display::updateUI();
 }
 

@@ -5,7 +5,7 @@ Door::Door(QWidget *parent, DoorState state) : SimulationComponent(parent), ui(n
     ui->setupUi(this);
     this->state = state;
     this->closeDoor();
-    this->initUI();
+    Door::initUI();
 }
 
 Door::~Door() {
@@ -17,7 +17,7 @@ void Door::updateUI() {
 }
 
 void Door::initUI() {
-    this->updateUI();
+    Door::updateUI();
 }
 
 void Door::openDoor() {

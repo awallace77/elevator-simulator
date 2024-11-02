@@ -25,7 +25,10 @@ SOURCES += \
     Simulation.cpp \
     Speaker.cpp \
     main.cpp \
-    ElevatorControl.cpp
+    ElevatorControl.cpp \
+    NCStrategy.cpp \
+    FloorRequest.cpp \
+    SimulationManager.cpp
 
 HEADERS += \
     BuildingSetting.h \
@@ -49,7 +52,12 @@ HEADERS += \
     SimulationComponent.h \
     Button.h \
     Speaker.h \
-    ElevatorControl.h
+    ElevatorControl.h \
+    AllocationStrategy.h \
+    NCStrategy.h \
+    FloorRequest.h \
+    SimulationManager.h \
+    Random.h
 
 FORMS += \
     CloseButton.ui \

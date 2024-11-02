@@ -25,6 +25,7 @@ public:
     bool isRiding() const;
     bool hasArrived() const;
     QString getState() const;
+
     void pressButton(Button&);
     void boardElevator(int);
     void exitElevator(int);
@@ -35,6 +36,7 @@ public:
     void setDestinationFloor(int);
 
     virtual void updateUI() override;
+    virtual void initUI() override;
 
 private:
     Ui::Passenger *ui;
@@ -43,7 +45,6 @@ private:
     int floorNum;
     int elevatorNum;
     int destinationFloor;
-    virtual void initUI() override;
 
     /*
     void paintEvent(QPaintEvent *event) override {

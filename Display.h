@@ -18,11 +18,11 @@ public:
     void setMessage(QString);
     QString getMessage() const;
     virtual void updateUI() override;
+    virtual void initUI() override;
 
 private:
     Ui::Display *ui;
     QString message;
-    virtual void initUI() override;
 };
 
 #endif // DISPLAY_H

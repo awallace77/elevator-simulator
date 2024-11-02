@@ -20,11 +20,12 @@ public:
     void soundBell();
     void soundRing();
     virtual void updateUI() override;
+    virtual void initUI() override;
+
 
 private:
     Ui::Speaker *ui;
     QString message;
-    virtual void initUI() override;
 };
 
 #endif // SPEAKER_H

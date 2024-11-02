@@ -1,7 +1,6 @@
 #ifndef BUILDINGSETTING_H
 #define BUILDINGSETTING_H
 
-
 class BuildingSetting {
 public:
     BuildingSetting();

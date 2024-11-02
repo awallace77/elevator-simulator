@@ -17,11 +17,11 @@ public:
 
     virtual void press() override;
     virtual void updateUI() override;
+    virtual void initUI() override;
 
 private:
     Ui::HelpButton *ui;
     Elevator &elevator;
-    virtual void initUI() override;
 };
 
 #endif // HELPBUTTON_H

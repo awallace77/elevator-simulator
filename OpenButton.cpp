@@ -7,7 +7,7 @@ OpenButton::OpenButton(Elevator &elevator, QWidget *parent) :
     elevator(elevator)
 {
     ui->setupUi(this);
-    this->initUI();
+    OpenButton::initUI();
 }
 
 OpenButton::~OpenButton() {
@@ -24,6 +24,6 @@ void OpenButton::updateUI() {
 }
 
 void OpenButton::initUI() {
-    this->updateUI();
+    OpenButton::updateUI();
 }
 

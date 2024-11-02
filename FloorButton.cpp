@@ -1,5 +1,6 @@
 #include "FloorButton.h"
 #include "ui_FloorButton.h"
+#include <QDebug>
 
 FloorButton::FloorButton(Floor &floor, Direction dir, QWidget *parent) :
     Button(parent),
@@ -8,7 +9,7 @@ FloorButton::FloorButton(Floor &floor, Direction dir, QWidget *parent) :
     floor(floor)
 {
     ui->setupUi(this);
-    this->initUI();
+    FloorButton::initUI();
 }
 
 FloorButton::~FloorButton() {
@@ -16,19 +17,20 @@ FloorButton::~FloorButton() {
 }
 
 void FloorButton::press() {
+    qInfo() << QString("Floor %1 %2 button pressed").arg(floor.getFloorNum()).arg(direction == Direction::Up ? "Up" : "Down");
     this->on();
     this->floor.inform(this->direction);
 }
 
 void FloorButton::updateUI() {
-    ui->pushButton->setText(QString("%1 Button: %2").arg(this->getDirection()).arg(this->getState()));
+    ui->pushButton->setText(QString("%1 Button: %2").arg(this->getDirectionString()).arg(this->getState()));
 }
 
 void FloorButton::setDirection(Direction dir) {
     this->direction = dir;
 }
 
-QString FloorButton::getDirection() const {
+QString FloorButton::getDirectionString() const {
     switch(this->direction){
         case Direction::Up:
             return "Up";
@@ -39,7 +41,11 @@ QString FloorButton::getDirection() const {
     }
 }
 
+Direction FloorButton::getDirection() const {
+    return direction;
+}
+
 void FloorButton::initUI() {
-    this->updateUI();
+   FloorButton::updateUI();
 }
 

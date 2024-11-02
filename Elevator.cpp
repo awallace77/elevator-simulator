@@ -2,7 +2,7 @@
 #include "ui_Elevator.h"
 #include <QDebug>
 
-Elevator::Elevator(int num, int floor, int capacity, QWidget *parent) 
+Elevator::Elevator(int num, int floor, int capacity, ElevatorControl *ecs, QWidget *parent)
     : SimulationComponent(parent), ui(new Ui::Elevator) {
     ui->setupUi(this);
     this->floor = floor;
@@ -20,7 +20,10 @@ Elevator::Elevator(int num, int floor, int capacity, QWidget *parent)
     this->closeButton = new CloseButton (*this, this);
     this->helpButton = new HelpButton (*this, this);
 
-    this->initUI();
+    //this->ecs = ecs;
+    Elevator::initUI();
+    this->ecs = ecs;
+
 }
 
 Elevator::~Elevator() {
@@ -34,9 +37,10 @@ Elevator::~Elevator() {
 }
 
 void Elevator::initUI() {
+    qInfo() << "iinitializing elevator  UI";
     ui->elevatorLabel->setText(this->getName());
     ui->elevatorFloorLabel->setText(QString("Floor %1").arg(this->getFloor()));
-    ui->elevatorStateLabel->setText(this->getState());
+    ui->elevatorStateLabel->setText(this->getStateString());
     ui->elevatorCapactiyLabel->setText(QString("Capacity: %1").arg(this->getCapacity()));
     ui->elevator->insertWidget(0, door);
 
@@ -51,11 +55,30 @@ void Elevator::updateUI() {
 
     ui->elevatorDirectionLabel->setText(this->getDirectionString());
     ui->elevatorFloorLabel->setText(QString("Floor: %1").arg(this->getFloor()));
-    ui->elevatorStateLabel->setText(this->getState());
+    ui->elevatorStateLabel->setText(this->getStateString());
     this->door->updateUI();
     this->openButton->updateUI();
     this->closeButton->updateUI();
     this->helpButton->updateUI();
+}
+
+void Elevator::start(Direction dir){
+    qInfo() << QString("Starting in the %1 direction").arg(dir == Direction::Up ? "Up" : "Down");
+    this->setDirection(dir);
+    this->setState(ElevatorState::Moving);
+}
+
+void Elevator::move() {
+    Direction dir = this->getDirection();
+    if(dir != Direction::Up && dir != Direction::Down) return;
+    if(dir == Direction::Up) this->setFloor(this->getFloor() + 1);
+    else if(dir == Direction::Down) this->setFloor(this->getFloor() - 1);
+}
+
+void Elevator::stop() {
+    this->setState(ElevatorState::Stopped);
+
+    // Sound bell, open door
 }
 
 void Elevator::open() {
@@ -77,11 +100,19 @@ QString Elevator::toString() const {
     return QString("Name: %1\nFloor: %2\nState: %3\nCapacity: %4")
             .arg(name)
             .arg(QString::number(floor)) // Assuming floor is an integer
-            .arg(this->getState()) // Make sure state is a QString
+            .arg(this->getStateString()) // Make sure state is a QString
             .arg(QString::number(capacity)); // Assuming capacity is an integer
 }
 
-QString Elevator::getState() const {
+void Elevator::setIdle() {
+    this->setState(ElevatorState::Idle);
+}
+
+ElevatorState Elevator::getState() const {
+    return state;
+}
+
+QString Elevator::getStateString() const {
     switch(this->state){
 	case ElevatorState::Idle:
 	    return "Idle";
@@ -127,7 +158,6 @@ int Elevator::getCapacity() const {
     return capacity;
 }
 
-
 QString Elevator::getName() const {
     return name;
 }
@@ -162,4 +192,28 @@ bool Elevator::isEmergency() const {
 
 bool Elevator::isOutOfService() const {
     return (state == ElevatorState::OutOfService);
+}
+
+void Elevator::setState(ElevatorState state){
+    this->state = state;
+}
+
+void Elevator::setFloor(int floor){
+    this->floor = floor;
+}
+
+void Elevator::setElevatorNumber(int num){
+    this->elevatorNumber = num;
+}
+
+void Elevator::setCapacity(int num){
+    this->capacity = num;
+}
+
+void Elevator::setName(QString name){
+    this->name = name;
+}
+
+void Elevator::setDirection(Direction dir){
+    this->direction = dir;
 }

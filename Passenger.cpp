@@ -12,7 +12,7 @@ Passenger::Passenger(int passengerNum, int floorNum, int destinationFloor, QWidg
     this->elevatorNum = -1; // we don't know initally
     this->destinationFloor = destinationFloor;
 
-    this->initUI();
+    Passenger::initUI();
 }
 
 Passenger::~Passenger() {
@@ -20,7 +20,7 @@ Passenger::~Passenger() {
 }
 
 void Passenger::initUI() {
-    this->updateUI();
+    Passenger::updateUI();
 }
 
 QString Passenger::getState() const {
@@ -50,7 +50,7 @@ bool Passenger::hasArrived() const {
 
 void Passenger::pressButton(Button &button){
     qInfo() << "Button Pressed";
-    //button.press();
+    button.press();
 }
 
 void Passenger::boardElevator(int elevatorNum) {

@@ -12,6 +12,8 @@ class Button : public SimulationComponent {
 	}
 	virtual void press()=0;
 	virtual void updateUI()=0;
+    virtual void initUI()=0;
+
 	void on()  { isOn = true;  }
 	void off() { isOn = false; }
 	QString getState() {
@@ -20,7 +22,6 @@ class Button : public SimulationComponent {
 
     private:
 	bool isOn;
-	virtual void initUI()=0;
 };
 
 #endif

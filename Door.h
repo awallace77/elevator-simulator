@@ -19,6 +19,8 @@ class Door : public SimulationComponent {
 	bool isOpen() const;
 	QString getState() const;
 	virtual void updateUI() override;
+    virtual void initUI() override;
+
 
     public slots: 
 	void openDoor();
@@ -27,7 +29,6 @@ class Door : public SimulationComponent {
     private:
 	Ui::Door *ui;
 	DoorState state;
-	virtual void initUI() override;
 };
 
 #endif // DOOR_H

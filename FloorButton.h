@@ -20,15 +20,17 @@ public:
 
     virtual void press() override;
     virtual void updateUI() override;
+    virtual void initUI() override;
+
 
     void setDirection(Direction);
-    QString getDirection() const;
+    QString getDirectionString() const;
+    Direction getDirection() const;
 
 private:
     Ui::FloorButton *ui;
     Direction direction;
     Floor &floor;
-    virtual void initUI() override;
 };
 
 #endif // FLOORBUTTON_H

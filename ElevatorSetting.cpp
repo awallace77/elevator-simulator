@@ -11,7 +11,7 @@ ElevatorSetting::ElevatorSetting(QWidget *parent, int num) :
     this->overloadedTime = 0;
     this->obstacle = false;
     this->obstacleTime = 0;
-
+    this->capacity = 0;
     this->initUI();
 }
 
@@ -61,5 +61,9 @@ bool ElevatorSetting::getObstacle() const {
 
 int ElevatorSetting::getObstacleTime() const {
     return obstacleTime;
+}
+
+int ElevatorSetting::getCapacity() const {
+    return capacity;
 }
 

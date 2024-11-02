@@ -16,11 +16,11 @@ public:
     ~OpenButton();
     virtual void press() override;
     virtual void updateUI() override;
+    virtual void initUI() override;
 
 private:
     Ui::OpenButton *ui;
     Elevator &elevator;
-    virtual void initUI() override;
 };
 
 #endif // OPENBUTTON_H

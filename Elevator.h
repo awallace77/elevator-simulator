@@ -14,11 +14,14 @@
 #include "CloseButton.h" 
 #include "HelpButton.h" 
 #include "Button.h"
-
+#include "ElevatorControl.h"
+#include "AllocationStrategy.h"
 
 class OpenButton;
 class CloseButton;
 class HelpButton;
+class ElevatorControl;
+class AllocationStrategy;
 
 
 namespace Ui {
@@ -29,13 +32,18 @@ class Elevator : public SimulationComponent {
     Q_OBJECT
 
     public:
-    explicit Elevator(int, int, int, QWidget *parent = nullptr);
+    explicit Elevator(int, int, int, ElevatorControl*, QWidget *parent = nullptr);
 	~Elevator();
-	virtual void updateUI() override;
+    virtual void updateUI() override;
+    virtual void initUI() override;
+
 
 	void open();
 	void close();
 	void help();
+	void start(Direction);
+	void move(); // moves in the direction
+	void stop();
 
 	bool isIdle() const;
 	bool isMoving() const;
@@ -44,14 +52,23 @@ class Elevator : public SimulationComponent {
 	bool isOutOfService() const;
 
 	QString toString() const;
-	QString getState() const;
 
+	QString getStateString() const;
+	ElevatorState getState() const;
 	int getFloor() const;
 	int getElevatorNumber() const;
 	int getCapacity() const;
 	QString getName() const;
 	Direction getDirection() const;
 	QString getDirectionString() const;
+
+	void setState(ElevatorState);
+	void setFloor(int);
+	void setElevatorNumber(int);
+	void setCapacity(int);
+	void setName(QString);
+	void setDirection(Direction);
+	void setIdle();
 
 	Button* getOpenButton() const;
 	Button* getCloseButton() const;
@@ -83,21 +100,13 @@ class Elevator : public SimulationComponent {
 	Door *door;
 	Display *display;
 	Speaker *speaker;
-    Button *openButton;
-    Button *closeButton;
-    Button *helpButton;
+	Button *openButton;
+	Button *closeButton;
+	Button *helpButton;
 
-    virtual void initUI() override;
+	ElevatorControl *ecs;
+
 };
 
 #endif // ELEVATOR_H
-
-#include <QWidget>
-#include <QString>
-#include "ElevatorState.h"
-#include "Door.h"
-
-namespace Ui {
-class Elevator;
-}
 

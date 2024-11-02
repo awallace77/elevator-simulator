@@ -6,7 +6,7 @@ Speaker::Speaker(QWidget *parent, QString msg) :
     ui(new Ui::Speaker) {
     ui->setupUi(this);
     this->setMessage(msg);
-    this->initUI();
+    Speaker::initUI();
 }
 
 Speaker::~Speaker() {
@@ -34,7 +34,7 @@ void Speaker::updateUI() {
 }
 
 void Speaker::initUI() {
-    this->updateUI();
+    Speaker::updateUI();
 }
 
 

@@ -19,11 +19,12 @@ public:
 
     virtual void press() override;
     virtual void updateUI() override;
+    virtual void initUI() override;
+
 
 private:
     Ui::CloseButton *ui;
     Elevator &elevator;
-    virtual void initUI() override;
 };
 
 #endif // CLOSEBUTTON_H

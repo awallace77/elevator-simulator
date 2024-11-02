@@ -8,7 +8,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->numPassengers = 0;
     this->numFloors = 0;
     this->buildingSetting = new BuildingSetting();
-    this->simulation = new Simulation();
     this->updateUI();
 }
 
@@ -17,7 +16,6 @@ MainWindow::~MainWindow() {
     for(auto &pSetting : this->passengerSettings) delete pSetting;
     for(auto &eSetting : this->elevatorSettings) delete eSetting;
     delete this->buildingSetting;
-    delete this->simulation;
 }
 
 // Slots
@@ -36,6 +34,43 @@ void MainWindow::on_updateSimulationButton_clicked() {
 void MainWindow::updateUI() {
     this->updatePassengerMenus();
     this->updateElevatorMenus();
+}
+
+void MainWindow::on_floorSpinBox_valueChanged(int num) {
+    this->numFloors = num;
+}
+
+void MainWindow::on_fireCheckBox_stateChanged(int checked) {
+    this->buildingSetting->setFire(checked == Qt::Unchecked ? false : true);
+}
+
+void MainWindow::on_fireSpinBox_valueChanged(int time) {
+    this->buildingSetting->setFireTime(time);
+}
+
+void MainWindow::on_powerOutageCheckBox_stateChanged(int checked) {
+    this->buildingSetting->setPowerOutage(checked == Qt::Unchecked ? false : true);
+}
+
+void MainWindow::on_powerOutageSpinBox_valueChanged(int time) {
+    this->buildingSetting->setPowerOutageTime(time);
+}
+
+void MainWindow::on_startSimulationButton_clicked() {
+    //ui->updateSimulationButton->setDisabled(true);
+    Simulation *sim = new Simulation(
+	elevatorSettings, 
+	passengerSettings, 
+	buildingSetting, 
+	numElevators, 
+	numPassengers, 
+	numFloors,
+	this
+    );
+
+    sim->show();
+    sim->start();
+    //delete sim;
 }
 
 // Elevator Settings
@@ -72,41 +107,6 @@ void MainWindow::updatePassengerMenus() {
 void MainWindow::addPassengerMenu(int num){
     PassengerSetting *setting = new PassengerSetting(this, num);
     this->passengerSettings.push_back(setting);
-}
-
-// Floors
-void MainWindow::on_floorSpinBox_valueChanged(int num) {
-    this->numFloors = num;
-}
-
-// Building
-void MainWindow::on_fireCheckBox_stateChanged(int checked) {
-    this->buildingSetting->setFire(checked == Qt::Unchecked ? false : true);
-}
-
-void MainWindow::on_fireSpinBox_valueChanged(int time) {
-    this->buildingSetting->setFireTime(time);
-}
-
-void MainWindow::on_powerOutageCheckBox_stateChanged(int checked) {
-    this->buildingSetting->setPowerOutage(checked == Qt::Unchecked ? false : true);
-}
-
-void MainWindow::on_powerOutageSpinBox_valueChanged(int time) {
-    this->buildingSetting->setPowerOutageTime(time);
-}
-
-void MainWindow::on_startSimulationButton_clicked() {
-    ui->updateSimulationButton->setDisabled(true);
-    this->simulation->show();
-    this->simulation->start(
-	    elevatorSettings, 
-	    passengerSettings, 
-	    buildingSetting, 
-	    numElevators, 
-	    numPassengers, 
-	    numFloors
-    );
 }
 
 void MainWindow::clearLayout(QLayout *layout) {
