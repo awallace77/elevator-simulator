@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->numPassengers = 0;
     this->numFloors = 0;
     this->buildingSetting = new BuildingSetting();
+    this->simulation = new Simulation(this);
     this->updateUI();
 }
 
@@ -16,6 +17,7 @@ MainWindow::~MainWindow() {
     for(auto &pSetting : this->passengerSettings) delete pSetting;
     for(auto &eSetting : this->elevatorSettings) delete eSetting;
     delete this->buildingSetting;
+    delete this->simulation;
 }
 
 // Slots
@@ -58,18 +60,16 @@ void MainWindow::on_powerOutageSpinBox_valueChanged(int time) {
 
 void MainWindow::on_startSimulationButton_clicked() {
     //ui->updateSimulationButton->setDisabled(true);
-    Simulation *sim = new Simulation(
+    this->simulation->show();
+   this->simulation->start( 
 	elevatorSettings, 
 	passengerSettings, 
 	buildingSetting, 
 	numElevators, 
 	numPassengers, 
-	numFloors,
-	this
+    numFloors
     );
 
-    sim->show();
-    sim->start();
     //delete sim;
 }
 

@@ -38,6 +38,8 @@ class SimulationManager {
 	void passengerOpenDoorPress(PassengerSetting&);
 	void passengerCloseDoorPress(PassengerSetting&);
 
+	void moveElevators();
+
 	std::vector<Elevator*> elevators;
 	std::vector<Passenger*> passengers;
 	std::vector<Floor*> floors;

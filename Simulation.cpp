@@ -1,45 +1,67 @@
 #include "Simulation.h"
 #include "ui_Simulation.h"
 
-Simulation::Simulation(
-	std::vector<ElevatorSetting*> elevatorSettings,
-	std::vector<PassengerSetting*> passengerSettings,
-	BuildingSetting* buildingSetting,
-	int numElevators,
-	int numPassengers,
-    int numFloors,
-	QWidget *parent) :
+#include <QEventLoop>
+
+Simulation::Simulation(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Simulation) {
     ui->setupUi(this);
-    this->init(elevatorSettings, passengerSettings, buildingSetting, numElevators, numPassengers, numFloors);
+    
+    simManager = nullptr;
+    ecs = nullptr;
+    timer = new QTimer();
+    turn = 1;
+
+    connect(timer, &QTimer::timeout, this, &Simulation::runTurn);
 }
 
 Simulation::~Simulation() {
     delete ui;
+    for(auto &elevator : elevators) delete elevator;
+    for(auto &passenger : passengers) delete passenger;
+    for(auto &floor : floors) delete floor;
+    delete simManager;
+    delete ecs;
+
 }
 
 // Running Simulation
 void Simulation::start(
-    //std::vector<ElevatorSetting*> elevatorSettings,
-    //std::vector<PassengerSetting*> passengerSettings,
-    //BuildingSetting* buildingSetting,
-    //int numElevators,
-    //int numPassengers,
-    //int numFloors
+    std::vector<ElevatorSetting*> elevatorSettings,
+    std::vector<PassengerSetting*> passengerSettings,
+    BuildingSetting* buildingSetting,
+    int numElevators,
+    int numPassengers,
+    int numFloors
 ){
-    //this->startSimulation();
+    this->init(elevatorSettings, passengerSettings, buildingSetting, numElevators, numPassengers, numFloors);
+    this->startSimulation();
     //this->end();
 }
 
 void Simulation::startSimulation() {
     qInfo() << "Simulation Started";
     bool run = true;
-    int turn = 1;
     while(run){
-	simManager->runTurn(turn++);
-	if(turn == 3) run = false;
+
+        // Pause for 3 seconds without blocking
+        QEventLoop loop;
+        QTimer::singleShot(3000, &loop, &QEventLoop::quit);
+        loop.exec();
+
+
+        runTurn();
+	if(turn == 3) break;
+
+	++turn;
+
     }
+}
+
+void Simulation::runTurn(){
+    simManager->runTurn(turn);
+    this->updateUI(turn);
 }
 
 // Initialization
@@ -60,7 +82,7 @@ void Simulation::init(
     this->initElevators(elevatorSettings, numElevators);
     this->initPassengers(passengerSettings, numPassengers);
     this->initFloors(numFloors);
-    ecs->init(elevators, numFloors);
+    ecs->init(elevators, floors);
 
     simManager = new SimulationManager(
 	elevators,
@@ -75,12 +97,7 @@ void Simulation::init(
 }
 
 void Simulation::end() {
-    for(auto &elevator : elevators) delete elevator;
-    for(auto &passenger : passengers) delete passenger;
-    for(auto &floor : floors) delete floor;
-    delete simManager;
-    delete ecs;
-    qInfo() << "Simulation ended";
+        qInfo() << "Simulation ended";
 }
 
 void Simulation::initElevators(std::vector<ElevatorSetting*> settings, int num){
@@ -128,29 +145,52 @@ void Simulation::addFloor(int num, ElevatorControl *ecs, QWidget *parent) {
 // UI 
 void Simulation::initUI() {
     this->clearSimulation();
-    this->updateElevators();
-    this->updatePassengers();
-    this->updateFloors();
+    this->initElevatorsUI();
+    this->initPassengersUI();
+    this->initFloorsUI();
 }
 
-void Simulation::updateElevators() {
+void Simulation::updateUI(int turn) {
+    this->updateElevatorsUI();
+    this->updatePassengersUI();
+    this->updateFloorsUI();
+    ui->statusLabel->setText("Running");
+    ui->timeLcdNumber->display(turn);
+}
+
+void Simulation::initElevatorsUI() {
     for(auto &elevator : this->elevators){
-        //elevator->show();
-    ui->elevatorLayout->addWidget(elevator);
+	ui->elevatorLayout->addWidget(elevator);
     }
 }
 
-void Simulation::updatePassengers() {
+void Simulation::initPassengersUI() {
     for(auto &passenger : this->passengers){
-    //passenger->show();
 	ui->passengerLayout->addWidget(passenger);
     }
 }
 
-void Simulation::updateFloors() {
+void Simulation::initFloorsUI() {
     for(auto &floor : this->floors){
-    //floor->show();
 	ui->floorLayout->addWidget(floor);
+    }
+}
+
+void Simulation::updateElevatorsUI() {
+    for(auto &elevator : this->elevators){
+	elevator->updateUI();
+    }
+}
+
+void Simulation::updatePassengersUI() {
+    for(auto &passenger : this->passengers){
+	passenger->updateUI();
+    }
+}
+
+void Simulation::updateFloorsUI() {
+    for(auto &floor : this->floors){
+	floor->updateUI();
     }
 }
 

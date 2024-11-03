@@ -33,7 +33,11 @@ void SimulationManager::runTurn(int turn){
 
     // Passenger Setttings last
     processPassengerSetting(turn);
+    moveElevators();
+}
 
+void SimulationManager::moveElevators() {
+    ecs->moveElevators();
 }
 
 bool SimulationManager::hasBuildingSetting(int turn){

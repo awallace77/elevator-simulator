@@ -11,7 +11,7 @@ Elevator* NCStrategy::allocate(FloorRequest *req, std::vector<Elevator*> elevato
     int elIndex = 0;
     int bestScore = -1;
 
-    int reqOrigin = req->getOrigin();
+    int reqOrigin = req->getFloor();
     Direction reqDirection = req->getDirection();
 
     int i = 0;

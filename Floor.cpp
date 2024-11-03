@@ -22,12 +22,12 @@ Floor::~Floor() {
 }
 
 void Floor::inform(Direction direction) {
-    qInfo() << "Informed about direction";
+    qInfo() << QString("Floor %1 Informed about direction %2").arg(this->floorNum).arg(direction == Direction::Up ? "Up" : "Down");
     ecs->floorRequest(this->getFloorNum(), direction);
 }
 
 void Floor::serviced(Direction direction) {
-    qInfo() << "Informed about serviced";
+    qInfo() << QString("Floor %1 Informed about serviced").arg(this->floorNum);
     switch(direction){
         case Direction::Up:
             this->upButton->off();

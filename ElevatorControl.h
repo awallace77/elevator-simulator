@@ -5,8 +5,10 @@
 #include "Direction.h"
 #include "AllocationStrategy.h"
 #include "NCStrategy.h"
+#include "FloorRequest.h"
+#include "Floor.h"
 
-class AllocationStrategy;
+class Floor;
 
 class ElevatorControl {
 
@@ -17,16 +19,17 @@ class ElevatorControl {
 	void floorRequest(int, Direction);
 	void carRequest(int, int);
 
-	void init(std::vector<Elevator*>, int);
+    void init(std::vector<Elevator*>, std::vector<Floor*>);
 	void setElevators(std::vector<Elevator*>);
-	void setNumFloors(int);
-	void moveElevators();
+    void setFloors(std::vector<Floor*>);
+    void moveElevators();
 
     private: 
 	std::vector<Elevator*> elevators;
-	std::map<int, std::vector<int>> elevatorTasks;
+    std::vector<Floor*> floors;
+	std::map<int, std::vector<FloorRequest*>> elevatorFloorTasks;
+	std::map<int, std::vector<int>> elevatorDestTasks;
 	AllocationStrategy *allocationStrategy;
-	int numFloors;
 
 	void moveIdle();
 	bool canMove(int, Direction);

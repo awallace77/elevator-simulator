@@ -16,31 +16,30 @@ void ElevatorControl::floorRequest(int floor, Direction dir){
     moveIdle();
     
     FloorRequest *fq = new FloorRequest(floor, dir);
-    Elevator *elevator = allocationStrategy->allocate(fq, elevators, numFloors);
-    elevatorTasks[elevator->getElevatorNumber()].push_back(floor);
-
-    delete fq;
+    Elevator *elevator = allocationStrategy->allocate(fq, elevators, floors.size());
+    elevatorFloorTasks[elevator->getElevatorNumber()].push_back(fq);
 }
 
-void ElevatorControl::init(std::vector<Elevator*> elevators, int numFloors) {
+void ElevatorControl::init(std::vector<Elevator*> elevators, std::vector<Floor*> floors) {
     setElevators(elevators);
-    setNumFloors(numFloors);
+    setFloors(floors);
 }
 
 void ElevatorControl::setElevators(std::vector<Elevator*> elevators) {
     this->elevators.clear();
     for(auto &el : elevators) this->elevators.push_back(el);
 }
-    
-void ElevatorControl::setNumFloors(int numFloors) {
-    this->numFloors = numFloors;
+
+void ElevatorControl::setFloors(std::vector<Floor*> floors) {
+    this->floors.clear();
+    for(auto &el : floors) this->floors.push_back(el);
 }
 
 void ElevatorControl::moveIdle() {
     for(auto &el : elevators) {
     if(el->getState() == ElevatorState::Idle){
 	    Direction dir = Random::rand() == 0 ? Direction::Up : Direction::Down;
-        if(el->getFloor() >= numFloors && dir == Direction::Up) el->start(Direction::Down);
+        if(el->getFloor() >= static_cast<int>(floors.size()) && dir == Direction::Up) el->start(Direction::Down);
         else if(el->getFloor() <= 0 && dir == Direction::Down) el->start(Direction::Up);
         else el->start(dir);
 	}
@@ -49,49 +48,48 @@ void ElevatorControl::moveIdle() {
 
 void ElevatorControl::moveElevators() {
     for (auto &el : elevators) {
-        ElevatorState elState = el->getState();
-        auto &elTasks = elevatorTasks[el->getElevatorNumber()]; // Use a reference
+        auto &floorTasks = elevatorFloorTasks[el->getElevatorNumber()];
+        auto &destTasks = elevatorDestTasks[el->getElevatorNumber()];
 
-        bool stopped = false;
-        switch (elState) {
-            case ElevatorState::Idle:
-                if (!elTasks.empty()) { // Check if there are tasks
-                    int floor = elTasks[0];
-                    int elFloor = el->getFloor();
+	int prevFloor = el->getFloor();
+	el->move();
+	int currFloor= el->getFloor();
 
-                    if (elFloor != floor) {
-                        el->start(floor < elFloor ? Direction::Down : Direction::Up);
-                        this->canMove(elFloor, el->getDirection()) ? el->move() : el->setIdle();
-                    } else {
-                        el->stop();
-                    }
-                }
-                break;
+    for(std::vector<FloorRequest*>::iterator it = floorTasks.begin(); it != floorTasks.end();){
 
-            case ElevatorState::Moving:
-                for (size_t i = 0; i < elTasks.size(); i++) {
-                    if (el->getFloor() == elTasks[i]) {
-                        stopped = true;
-                        elTasks.erase(elTasks.begin() + i); // Modify original tasks
-                    }
-                }
+        if(currFloor == (*it)->getFloor()) {
 
-                if (stopped) {
-                    el->stop();
-                } else {
-                    this->canMove(el->getFloor(), el->getDirection()) ? el->move() : el->setIdle();
-                }
-                break;
+	    if(el->getDirection() != (*it)->getDirection()) {
+		// check if there are any other floor requests w the same direction, continue
+		bool hasOtherTask = false;
+		for(auto &floorReq : floorTasks){
+		    if(floorReq->getDirection() == el->getDirection()){
+			hasOtherTask = true;
+			break;
+		    }
+		}
 
+		if(hasOtherTask){ // has another task so continue
+		    ++it;
+		    continue;
+		} 
+		    
+		el->setDirection((*it)->getDirection());
+	    }
 
-            default:
-                break;
-        }
+		el->stop();
+		floors[currFloor]->serviced(el->getDirection());
+		it = floorTasks.erase(it); // remove task
+
+	    }else{
+		++it;
+	    }
+	}
     }
 }
 
 bool ElevatorControl::canMove(int elCurrFloor, Direction dir){
-    if(elCurrFloor >= numFloors && dir == Direction::Up) return false;
+    if(elCurrFloor >= static_cast<int>(floors.size()) && dir == Direction::Up) return false;
     if(elCurrFloor <= 0 && dir == Direction::Down) return false;
     return true;
 }

@@ -12,6 +12,7 @@
 #include "Floor.h"
 #include "ElevatorControl.h"
 #include "SimulationManager.h"
+#include <QTimer>
 
 namespace Ui {
 class Simulation;
@@ -21,30 +22,24 @@ class Simulation : public QDialog {
     Q_OBJECT
 
 public:
-    explicit Simulation(
-	std::vector<ElevatorSetting*>,
-    std::vector<PassengerSetting*>,
-	BuildingSetting*,
-	int,
-	int,
-    int,
-	QWidget *parent = nullptr
-    );
+    explicit Simulation(QWidget *parent = nullptr);
     ~Simulation();
 
     void start(
-	    /*
 	std::vector<ElevatorSetting*>, 
 	std::vector<PassengerSetting*>, 
 	BuildingSetting*,
 	int,
 	int,
 	int
-	*/
     );
+
+private slots:
+    void runTurn();
 
 private:
     Ui::Simulation *ui;
+    int turn;
 
     // settings
     std::vector<ElevatorSetting*> elevatorSettings;
@@ -57,6 +52,7 @@ private:
     std::vector<Floor*> floors;
     ElevatorControl *ecs;
     SimulationManager *simManager;
+    QTimer *timer;
 
     int numElevators;
     int numPassengers;
@@ -83,16 +79,19 @@ private:
 
     // UI 
     void initUI();
-    void updateUI();
-    void updateElevators();
-    void updatePassengers();
-    void updateFloors();
+    void initElevatorsUI();
+    void initPassengersUI();
+    void initFloorsUI();
+    
+    void updateUI(int);
+    void updateElevatorsUI();
+    void updatePassengersUI();
+    void updateFloorsUI();
 
     // Running
-    //TurnInfo getTurnInfo();
-
     void clearSimulation();
     void clearLayout(QLayout*);
+
 };
 
 #endif // SIMULATION_H

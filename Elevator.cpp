@@ -73,6 +73,7 @@ void Elevator::move() {
     if(dir != Direction::Up && dir != Direction::Down) return;
     if(dir == Direction::Up) this->setFloor(this->getFloor() + 1);
     else if(dir == Direction::Down) this->setFloor(this->getFloor() - 1);
+    this->setState(ElevatorState::Moving);
 }
 
 void Elevator::stop() {

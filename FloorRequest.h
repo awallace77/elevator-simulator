@@ -7,14 +7,14 @@ class FloorRequest {
     public:
 	FloorRequest(int, Direction);
 	//~FloorRequest();
-	int getOrigin() const;
+	int getFloor() const;
 	Direction getDirection() const;
 
-	void setOrigin(int);
+	void setFloor(int);
 	void setDirection(Direction);
 
     private:
-	int origin;
+	int floor;
 	Direction direction;
 };
 
