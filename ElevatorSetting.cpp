@@ -67,3 +67,4 @@ int ElevatorSetting::getCapacity() const {
     return capacity;
 }
 
+

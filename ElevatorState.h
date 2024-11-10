@@ -6,6 +6,7 @@ enum class ElevatorState {
     Moving,
     Stopped,
     Emergency,
+    Safety,
     OutOfService,
 };
 

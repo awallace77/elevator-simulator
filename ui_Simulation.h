@@ -16,13 +16,18 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_Simulation
 {
 public:
+    QVBoxLayout *verticalLayout_2;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QGridLayout *elevatorLayout;
@@ -37,7 +42,15 @@ public:
         if (Simulation->objectName().isEmpty())
             Simulation->setObjectName(QString::fromUtf8("Simulation"));
         Simulation->resize(1064, 535);
-        verticalLayout = new QVBoxLayout(Simulation);
+        verticalLayout_2 = new QVBoxLayout(Simulation);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        scrollArea = new QScrollArea(Simulation);
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 1044, 515));
+        verticalLayout = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
@@ -64,12 +77,12 @@ public:
 
         simulationInfoLayout = new QHBoxLayout();
         simulationInfoLayout->setObjectName(QString::fromUtf8("simulationInfoLayout"));
-        statusLabel = new QLabel(Simulation);
+        statusLabel = new QLabel(scrollAreaWidgetContents);
         statusLabel->setObjectName(QString::fromUtf8("statusLabel"));
 
         simulationInfoLayout->addWidget(statusLabel);
 
-        timeLcdNumber = new QLCDNumber(Simulation);
+        timeLcdNumber = new QLCDNumber(scrollAreaWidgetContents);
         timeLcdNumber->setObjectName(QString::fromUtf8("timeLcdNumber"));
 
         simulationInfoLayout->addWidget(timeLcdNumber);
@@ -77,8 +90,12 @@ public:
 
         verticalLayout->addLayout(simulationInfoLayout);
 
-        verticalLayout->setStretch(0, 10);
+        verticalLayout->setStretch(0, 6);
         verticalLayout->setStretch(1, 1);
+        scrollArea->setWidget(scrollAreaWidgetContents);
+
+        verticalLayout_2->addWidget(scrollArea);
+
 
         retranslateUi(Simulation);
 

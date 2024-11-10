@@ -22,12 +22,10 @@ Floor::~Floor() {
 }
 
 void Floor::inform(Direction direction) {
-    qInfo() << "Informed about direction";
     ecs->floorRequest(this->getFloorNum(), direction);
 }
 
 void Floor::serviced(Direction direction) {
-    qInfo() << "Informed about serviced";
     switch(direction){
         case Direction::Up:
             this->upButton->off();
@@ -50,7 +48,7 @@ int Floor::getFloorNum() const {
 }
 
 void Floor::updateUI() {
-    ui->label->setText(QString("Floor %1").arg(this->floorNum));
+    ui->label->setText(QString("Floor %1").arg(this->floorNum + 1));
     this->upButton->updateUI();
     this->downButton->updateUI();
 }

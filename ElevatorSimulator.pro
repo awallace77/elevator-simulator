@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     BuildingSetting.cpp \
     CloseButton.cpp \
+    DestinationButton.cpp \
     Display.cpp \
     Door.cpp \
     Elevator.cpp \
@@ -28,11 +29,14 @@ SOURCES += \
     ElevatorControl.cpp \
     NCStrategy.cpp \
     FloorRequest.cpp \
-    SimulationManager.cpp
+    SimulationManager.cpp \
+    SimulationUpdater.cpp \
+    Sensor.cpp
 
 HEADERS += \
     BuildingSetting.h \
     CloseButton.h \
+    DestinationButton.h \
     Display.h \
     Door.h \
     Elevator.h \
@@ -57,10 +61,13 @@ HEADERS += \
     NCStrategy.h \
     FloorRequest.h \
     SimulationManager.h \
-    Random.h
+    Random.h \
+    SimulationUpdater.h \ 
+    Sensor.h
 
 FORMS += \
     CloseButton.ui \
+    DestinationButton.ui \
     Display.ui \
     Door.ui \
     Elevator.ui \

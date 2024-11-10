@@ -1,10 +1,10 @@
 #include "FloorRequest.h"
 
-FloorRequest::FloorRequest(int floor, Direction direction) : origin(floor), direction(direction) { }
+FloorRequest::FloorRequest(int floor, Direction direction) : floor(floor), direction(direction) { }
+FloorRequest::~FloorRequest() { }
 
-int FloorRequest::getOrigin() const { return origin; }
+int FloorRequest::getFloorNum() const { return floor; }
 Direction FloorRequest::getDirection() const { return direction; }
 
-void FloorRequest::setOrigin(int origin) { this->origin = origin; }
+void FloorRequest::setFloorNum(int origin) { this->floor = origin; }
 void FloorRequest::setDirection(Direction dir) { this->direction = dir; }
-

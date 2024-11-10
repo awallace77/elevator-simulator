@@ -7,7 +7,8 @@
 class AllocationStrategy {
 
     public:
-	virtual Elevator* allocate(FloorRequest *request, std::vector<Elevator*>, int) = 0;
+        virtual ~AllocationStrategy(){};
+        virtual Elevator* allocate(FloorRequest *request, std::vector<Elevator*>&, int) = 0;
 };
 
 #endif

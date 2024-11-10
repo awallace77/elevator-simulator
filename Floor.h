@@ -8,6 +8,8 @@
 
 class FloorButton;
 class ElevatorControl;
+class AllocationStrategy;
+
 
 namespace Ui {
 class Floor;

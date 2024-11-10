@@ -8,43 +8,60 @@
 #include "PassengerSetting.h"
 #include "BuildingSetting.h"
 #include "ElevatorControl.h"
+#include "SimulationUpdater.h"
+#include <QTimer>
 
 class SimulationManager {
 
     public:
-	SimulationManager(
-	    std::vector<Elevator*>,
-	    std::vector<Passenger*>,
-	    std::vector<Floor*>,
-	    std::vector<ElevatorSetting*>,
-	    std::vector<PassengerSetting*>,
-	    BuildingSetting*,
-	    ElevatorControl*
-	);
+        SimulationManager(
+            std::vector<Elevator*>,
+            std::vector<Passenger*>,
+            std::vector<Floor*>,
+            std::vector<ElevatorSetting*>,
+            std::vector<PassengerSetting*>,
+            BuildingSetting*,
+            ElevatorControl*
+        );
 
-	void runTurn(int);
+        ~SimulationManager();
+        bool runTurn(int);
+
     private:
-	// turn number, elevator settings, passenger settings, building settings
-	bool hasBuildingSetting(int);
-	bool hasElevatorSetting(int);
-	bool hasPassengerSetting(PassengerSetting&);
-	
-	void processBuildingSetting(int);
-	void processElevatorSetting(int);
-	void processPassengerSetting(int);
+        bool hasBuildingSetting(int);
+        bool hasElevatorSetting(int);
+        bool hasPassengerSetting(PassengerSetting&);
 
-	void passengerFloorPress(PassengerSetting&);
-	void passengerHelpPress(PassengerSetting&);
-	void passengerOpenDoorPress(PassengerSetting&);
-	void passengerCloseDoorPress(PassengerSetting&);
+        bool shouldContinue(int);
 
-	std::vector<Elevator*> elevators;
-	std::vector<Passenger*> passengers;
-	std::vector<Floor*> floors;
-	std::vector<ElevatorSetting*> elevatorSettings;
-	std::vector<PassengerSetting*> passengerSettings;
-	BuildingSetting *buildingSetting;
-	ElevatorControl *ecs;
+        // Settings
+        void processBuildingSetting(int);
+        void processElevatorSetting(int);
+        void processPassengerSetting(int);
+
+        // Elevators
+        void moveElevators();
+        void startElevators();
+
+        // Passengers
+        void passengerFloorPress(PassengerSetting&);
+        void passengerHelpPress(PassengerSetting&);
+        void passengerOpenDoorPress(PassengerSetting&);
+        void passengerCloseDoorPress(PassengerSetting&);
+        void updatePassengers();
+
+        // UI
+        void updateUI();
+
+        std::vector<Elevator*> elevators;
+        std::vector<Passenger*> passengers;
+        std::vector<Floor*> floors;
+        std::vector<ElevatorSetting*> elevatorSettings;
+        std::vector<PassengerSetting*> passengerSettings;
+        BuildingSetting *buildingSetting;
+        ElevatorControl *ecs;
+        SimulationUpdater *simUpdater;
+        QTimer *timer;
 };
 
 #endif

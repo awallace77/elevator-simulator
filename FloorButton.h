@@ -22,7 +22,6 @@ public:
     virtual void updateUI() override;
     virtual void initUI() override;
 
-
     void setDirection(Direction);
     QString getDirectionString() const;
     Direction getDirection() const;

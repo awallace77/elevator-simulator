@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->numPassengers = 0;
     this->numFloors = 0;
     this->buildingSetting = new BuildingSetting();
+    this->simulation = new Simulation(this);
     this->updateUI();
 }
 
@@ -16,6 +17,7 @@ MainWindow::~MainWindow() {
     for(auto &pSetting : this->passengerSettings) delete pSetting;
     for(auto &eSetting : this->elevatorSettings) delete eSetting;
     delete this->buildingSetting;
+    delete this->simulation;
 }
 
 // Slots
@@ -58,18 +60,16 @@ void MainWindow::on_powerOutageSpinBox_valueChanged(int time) {
 
 void MainWindow::on_startSimulationButton_clicked() {
     //ui->updateSimulationButton->setDisabled(true);
-    Simulation *sim = new Simulation(
-	elevatorSettings, 
-	passengerSettings, 
-	buildingSetting, 
-	numElevators, 
-	numPassengers, 
-	numFloors,
-	this
+    this->simulation->show();
+    this->simulation->start( 
+        elevatorSettings,
+        passengerSettings,
+        buildingSetting,
+        numElevators,
+        numPassengers,
+        numFloors
     );
 
-    sim->show();
-    sim->start();
     //delete sim;
 }
 
@@ -78,7 +78,7 @@ void MainWindow::updateElevatorMenus() {
     this->clearLayout(ui->elevatorSettingsLayout);
     this->elevatorSettings.clear();
     for(int i = 0; i < this->numElevators; i++) {
-	this->addElevatorMenu(i);
+        this->addElevatorMenu(i);
     }
 
     for(auto &setting : this->elevatorSettings) {
@@ -96,11 +96,11 @@ void MainWindow::updatePassengerMenus() {
     this->clearLayout(ui->passengerSettingsLayout);
     this->passengerSettings.clear();
     for(int i = 0; i < this->numPassengers; i++) {
-	this->addPassengerMenu(i);
+        this->addPassengerMenu(i);
     }
 
     for(auto &setting: this->passengerSettings) {
-	ui->passengerSettingsLayout->addWidget(setting);
+        ui->passengerSettingsLayout->addWidget(setting);
     }
 }
 
@@ -124,3 +124,8 @@ void MainWindow::clearLayout(QLayout *layout) {
         delete item;
     }
 }
+
+void MainWindow::on_safeFloorLineEdit_textChanged(const QString &safeFloors) {
+    this->buildingSetting->setSafeFloors(safeFloors);
+}
+

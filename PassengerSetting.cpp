@@ -119,4 +119,9 @@ int PassengerSetting::getTimeOpenDoorPressed() const { return timeOpenDoorPresse
 bool PassengerSetting::getCloseDoorPressed() const { return closeDoorPressed; }
 int PassengerSetting::getTimeCloseDoorPressed() const { return timeCloseDoorPressed; }
 
+// setters
+void PassengerSetting::setTimeFloorPressed(int time) { this->timeFloorPressed = time; }
+void PassengerSetting::setTimeHelpPressed(int time) { this->timeHelpPressed = time; }
+void PassengerSetting::setTimeOpenDoorPressed(int time) { this->timeOpenDoorPressed = time; }
+void PassengerSetting::setTimeCloseDoorPressed(int time) { this->timeCloseDoorPressed = time; }
 

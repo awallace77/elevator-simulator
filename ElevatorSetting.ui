@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>172</width>
-    <height>105</height>
+    <height>133</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QCheckBox" name="overloadeCheckBox">
+      <widget class="QCheckBox" name="overloadedCheckBox">
        <property name="text">
         <string>Overloaded</string>
        </property>
