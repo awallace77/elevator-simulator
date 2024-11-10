@@ -26,7 +26,7 @@ public:
     QVBoxLayout *verticalLayout;
     QFormLayout *formLayout;
     QLabel *elevatorLabel;
-    QCheckBox *overloadeCheckBox;
+    QCheckBox *overloadedCheckBox;
     QSpinBox *overloadedSpinBox;
     QCheckBox *obstacleCheckBox;
     QSpinBox *obstacleSpinBox;
@@ -37,7 +37,7 @@ public:
     {
         if (ElevatorSetting->objectName().isEmpty())
             ElevatorSetting->setObjectName(QString::fromUtf8("ElevatorSetting"));
-        ElevatorSetting->resize(172, 105);
+        ElevatorSetting->resize(172, 133);
         verticalLayout = new QVBoxLayout(ElevatorSetting);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         formLayout = new QFormLayout();
@@ -47,10 +47,10 @@ public:
 
         formLayout->setWidget(0, QFormLayout::SpanningRole, elevatorLabel);
 
-        overloadeCheckBox = new QCheckBox(ElevatorSetting);
-        overloadeCheckBox->setObjectName(QString::fromUtf8("overloadeCheckBox"));
+        overloadedCheckBox = new QCheckBox(ElevatorSetting);
+        overloadedCheckBox->setObjectName(QString::fromUtf8("overloadedCheckBox"));
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, overloadeCheckBox);
+        formLayout->setWidget(1, QFormLayout::LabelRole, overloadedCheckBox);
 
         overloadedSpinBox = new QSpinBox(ElevatorSetting);
         overloadedSpinBox->setObjectName(QString::fromUtf8("overloadedSpinBox"));
@@ -90,7 +90,7 @@ public:
     {
         ElevatorSetting->setWindowTitle(QCoreApplication::translate("ElevatorSetting", "Form", nullptr));
         elevatorLabel->setText(QCoreApplication::translate("ElevatorSetting", "Elevator i", nullptr));
-        overloadeCheckBox->setText(QCoreApplication::translate("ElevatorSetting", "Overloaded", nullptr));
+        overloadedCheckBox->setText(QCoreApplication::translate("ElevatorSetting", "Overloaded", nullptr));
         obstacleCheckBox->setText(QCoreApplication::translate("ElevatorSetting", "Obstacle", nullptr));
         label->setText(QCoreApplication::translate("ElevatorSetting", "Capacity", nullptr));
     } // retranslateUi

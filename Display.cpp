@@ -21,6 +21,18 @@ QString Display::getMessage() const {
     return this->message;
 }
 
+void Display::showOverloaded() {
+    this->setMessage("Display says: Warning. Elevator overloaded.");
+}
+
+void Display::showObstacle() {
+    this->setMessage("Display says: Warning. Obstacle detected.");
+}
+
+void Display::showEmergency() {
+    this->setMessage("Display says: Emergency. Please disembark on the safe floor.");
+}
+
 void Display::updateUI() {
     ui->label->setText(this->message);
 }

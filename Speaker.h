@@ -19,6 +19,8 @@ public:
     QString getMessage() const;
     void soundBell();
     void soundRing();
+    void soundEmergency();
+    void soundWarning();
     virtual void updateUI() override;
     virtual void initUI() override;
 

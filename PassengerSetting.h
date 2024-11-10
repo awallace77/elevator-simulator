@@ -30,6 +30,11 @@ public:
     bool getCloseDoorPressed() const;
     int getTimeCloseDoorPressed() const;
 
+    void setTimeFloorPressed(int);
+    void setTimeHelpPressed(int);
+    void setTimeOpenDoorPressed(int);
+    void setTimeCloseDoorPressed(int);
+
 private slots:
     void on_timeFloorButtonPressedSpinBox_valueChanged(int arg1);
     void on_startFloorSpinBox_valueChanged(int arg1);

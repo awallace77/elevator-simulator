@@ -16,6 +16,9 @@ public:
     ~Display();
 
     void setMessage(QString);
+    void showEmergency();
+    void showObstacle();
+    void showOverloaded();
     QString getMessage() const;
     virtual void updateUI() override;
     virtual void initUI() override;

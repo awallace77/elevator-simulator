@@ -17,7 +17,6 @@ FloorButton::~FloorButton() {
 }
 
 void FloorButton::press() {
-    qInfo() << QString("Floor %1 %2 button pressed").arg(floor.getFloorNum()).arg(direction == Direction::Up ? "Up" : "Down");
     this->on();
     this->floor.inform(this->direction);
 }

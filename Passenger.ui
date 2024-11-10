@@ -7,15 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>217</width>
-    <height>109</height>
+    <height>110</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">
-background-color: rgb(220, 138, 221);</string>
+   <string notr="true">background-color: 	rgb(193, 225, 193);</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -40,6 +39,13 @@ background-color: rgb(220, 138, 221);</string>
     <widget class="QLabel" name="currentFloorLabel">
      <property name="text">
       <string>Current Floor</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="currentElevatorLabel">
+     <property name="text">
+      <string>Current Elevator</string>
      </property>
     </widget>
    </item>

@@ -66,6 +66,13 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="elevatorPassengersLabel">
+         <property name="text">
+          <string>Passengers</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

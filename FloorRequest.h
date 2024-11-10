@@ -5,17 +5,17 @@
 class FloorRequest {
 
     public:
-	FloorRequest(int, Direction);
-	//~FloorRequest();
-	int getFloor() const;
-	Direction getDirection() const;
+        FloorRequest(int, Direction);
+        ~FloorRequest();
+        int getFloorNum() const;
+        Direction getDirection() const;
 
-	void setFloor(int);
-	void setDirection(Direction);
+        void setFloorNum(int);
+        void setDirection(Direction);
 
     private:
-	int floor;
-	Direction direction;
+        int floor;
+        Direction direction;
 };
 
 #endif

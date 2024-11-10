@@ -16,7 +16,8 @@ OpenButton::~OpenButton() {
 
 void OpenButton::press() {
     this->on();
-    this->elevator.open();
+    this->elevator.openRequest();
+//    this->elevator.open();
 }
 
 void OpenButton::updateUI() {

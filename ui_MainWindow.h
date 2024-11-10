@@ -18,6 +18,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -41,21 +42,23 @@ public:
     QWidget *scrollAreaWidgetContents_2;
     QHBoxLayout *horizontalLayout;
     QFormLayout *mainMenuForm;
-    QLabel *elevatorLabel;
-    QSpinBox *elevatorSpinBox;
-    QLabel *passengerLabel;
-    QSpinBox *passengerSpinBox;
-    QLabel *floorLabel;
-    QSpinBox *floorSpinBox;
     QLabel *label;
     QCheckBox *fireCheckBox;
     QSpinBox *fireSpinBox;
     QCheckBox *powerOutageCheckBox;
     QSpinBox *powerOutageSpinBox;
     QFrame *line;
-    QSpacerItem *verticalSpacer;
+    QLineEdit *safeFloorLineEdit;
+    QLabel *safeFloorsLabel;
+    QLabel *elevatorLabel;
+    QSpinBox *elevatorSpinBox;
+    QLabel *passengerLabel;
+    QSpinBox *passengerSpinBox;
+    QLabel *floorLabel;
+    QSpinBox *floorSpinBox;
     QPushButton *updateSimulationButton;
     QPushButton *startSimulationButton;
+    QSpacerItem *verticalSpacer;
     QGridLayout *elevatorSettingsLayout;
     QGridLayout *passengerSettingsLayout;
     QMenuBar *menubar;
@@ -83,36 +86,6 @@ public:
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         mainMenuForm = new QFormLayout();
         mainMenuForm->setObjectName(QString::fromUtf8("mainMenuForm"));
-        elevatorLabel = new QLabel(scrollAreaWidgetContents_2);
-        elevatorLabel->setObjectName(QString::fromUtf8("elevatorLabel"));
-
-        mainMenuForm->setWidget(4, QFormLayout::LabelRole, elevatorLabel);
-
-        elevatorSpinBox = new QSpinBox(scrollAreaWidgetContents_2);
-        elevatorSpinBox->setObjectName(QString::fromUtf8("elevatorSpinBox"));
-
-        mainMenuForm->setWidget(4, QFormLayout::FieldRole, elevatorSpinBox);
-
-        passengerLabel = new QLabel(scrollAreaWidgetContents_2);
-        passengerLabel->setObjectName(QString::fromUtf8("passengerLabel"));
-
-        mainMenuForm->setWidget(5, QFormLayout::LabelRole, passengerLabel);
-
-        passengerSpinBox = new QSpinBox(scrollAreaWidgetContents_2);
-        passengerSpinBox->setObjectName(QString::fromUtf8("passengerSpinBox"));
-
-        mainMenuForm->setWidget(5, QFormLayout::FieldRole, passengerSpinBox);
-
-        floorLabel = new QLabel(scrollAreaWidgetContents_2);
-        floorLabel->setObjectName(QString::fromUtf8("floorLabel"));
-
-        mainMenuForm->setWidget(6, QFormLayout::LabelRole, floorLabel);
-
-        floorSpinBox = new QSpinBox(scrollAreaWidgetContents_2);
-        floorSpinBox->setObjectName(QString::fromUtf8("floorSpinBox"));
-
-        mainMenuForm->setWidget(6, QFormLayout::FieldRole, floorSpinBox);
-
         label = new QLabel(scrollAreaWidgetContents_2);
         label->setObjectName(QString::fromUtf8("label"));
 
@@ -150,21 +123,61 @@ public:
         line->setFrameShape(QFrame::HLine);
         line->setFrameShadow(QFrame::Sunken);
 
-        mainMenuForm->setWidget(3, QFormLayout::SpanningRole, line);
+        mainMenuForm->setWidget(5, QFormLayout::SpanningRole, line);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        safeFloorLineEdit = new QLineEdit(scrollAreaWidgetContents_2);
+        safeFloorLineEdit->setObjectName(QString::fromUtf8("safeFloorLineEdit"));
 
-        mainMenuForm->setItem(10, QFormLayout::LabelRole, verticalSpacer);
+        mainMenuForm->setWidget(4, QFormLayout::SpanningRole, safeFloorLineEdit);
+
+        safeFloorsLabel = new QLabel(scrollAreaWidgetContents_2);
+        safeFloorsLabel->setObjectName(QString::fromUtf8("safeFloorsLabel"));
+
+        mainMenuForm->setWidget(3, QFormLayout::SpanningRole, safeFloorsLabel);
+
+        elevatorLabel = new QLabel(scrollAreaWidgetContents_2);
+        elevatorLabel->setObjectName(QString::fromUtf8("elevatorLabel"));
+
+        mainMenuForm->setWidget(6, QFormLayout::LabelRole, elevatorLabel);
+
+        elevatorSpinBox = new QSpinBox(scrollAreaWidgetContents_2);
+        elevatorSpinBox->setObjectName(QString::fromUtf8("elevatorSpinBox"));
+
+        mainMenuForm->setWidget(6, QFormLayout::FieldRole, elevatorSpinBox);
+
+        passengerLabel = new QLabel(scrollAreaWidgetContents_2);
+        passengerLabel->setObjectName(QString::fromUtf8("passengerLabel"));
+
+        mainMenuForm->setWidget(7, QFormLayout::LabelRole, passengerLabel);
+
+        passengerSpinBox = new QSpinBox(scrollAreaWidgetContents_2);
+        passengerSpinBox->setObjectName(QString::fromUtf8("passengerSpinBox"));
+
+        mainMenuForm->setWidget(7, QFormLayout::FieldRole, passengerSpinBox);
+
+        floorLabel = new QLabel(scrollAreaWidgetContents_2);
+        floorLabel->setObjectName(QString::fromUtf8("floorLabel"));
+
+        mainMenuForm->setWidget(8, QFormLayout::LabelRole, floorLabel);
+
+        floorSpinBox = new QSpinBox(scrollAreaWidgetContents_2);
+        floorSpinBox->setObjectName(QString::fromUtf8("floorSpinBox"));
+
+        mainMenuForm->setWidget(8, QFormLayout::FieldRole, floorSpinBox);
 
         updateSimulationButton = new QPushButton(scrollAreaWidgetContents_2);
         updateSimulationButton->setObjectName(QString::fromUtf8("updateSimulationButton"));
 
-        mainMenuForm->setWidget(7, QFormLayout::SpanningRole, updateSimulationButton);
+        mainMenuForm->setWidget(9, QFormLayout::SpanningRole, updateSimulationButton);
 
         startSimulationButton = new QPushButton(scrollAreaWidgetContents_2);
         startSimulationButton->setObjectName(QString::fromUtf8("startSimulationButton"));
 
-        mainMenuForm->setWidget(8, QFormLayout::SpanningRole, startSimulationButton);
+        mainMenuForm->setWidget(10, QFormLayout::SpanningRole, startSimulationButton);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        mainMenuForm->setItem(11, QFormLayout::SpanningRole, verticalSpacer);
 
 
         horizontalLayout->addLayout(mainMenuForm);
@@ -209,12 +222,13 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Elevator Simulator", nullptr));
         actionQuit->setText(QCoreApplication::translate("MainWindow", "Quit", nullptr));
-        elevatorLabel->setText(QCoreApplication::translate("MainWindow", "Elevators", nullptr));
-        passengerLabel->setText(QCoreApplication::translate("MainWindow", "Passengers", nullptr));
-        floorLabel->setText(QCoreApplication::translate("MainWindow", "Floors", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Building Settings", nullptr));
         fireCheckBox->setText(QCoreApplication::translate("MainWindow", "Fire", nullptr));
         powerOutageCheckBox->setText(QCoreApplication::translate("MainWindow", "Power Outage", nullptr));
+        safeFloorsLabel->setText(QCoreApplication::translate("MainWindow", "Safe Floors (comma seperated)", nullptr));
+        elevatorLabel->setText(QCoreApplication::translate("MainWindow", "Elevators", nullptr));
+        passengerLabel->setText(QCoreApplication::translate("MainWindow", "Passengers", nullptr));
+        floorLabel->setText(QCoreApplication::translate("MainWindow", "Floors", nullptr));
         updateSimulationButton->setText(QCoreApplication::translate("MainWindow", "Update Simulation", nullptr));
         startSimulationButton->setText(QCoreApplication::translate("MainWindow", "Start Simulation", nullptr));
         menuNew_window->setTitle(QCoreApplication::translate("MainWindow", "ElevatorSimulator", nullptr));

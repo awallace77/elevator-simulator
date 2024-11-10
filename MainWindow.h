@@ -35,6 +35,8 @@ private slots:
     void on_powerOutageCheckBox_stateChanged(int arg1);
     void on_powerOutageSpinBox_valueChanged(int arg1);
 
+    void on_safeFloorLineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     Simulation* simulation;

@@ -25,15 +25,15 @@ public:
     QLabel *passengerLabel;
     QLabel *stateLabel;
     QLabel *currentFloorLabel;
+    QLabel *currentElevatorLabel;
     QSpacerItem *verticalSpacer;
 
     void setupUi(QWidget *Passenger)
     {
         if (Passenger->objectName().isEmpty())
             Passenger->setObjectName(QString::fromUtf8("Passenger"));
-        Passenger->resize(217, 109);
-        Passenger->setStyleSheet(QString::fromUtf8("\n"
-"background-color: rgb(220, 138, 221);"));
+        Passenger->resize(217, 110);
+        Passenger->setStyleSheet(QString::fromUtf8("background-color: 	rgb(193, 225, 193);"));
         verticalLayout = new QVBoxLayout(Passenger);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         passengerLabel = new QLabel(Passenger);
@@ -53,6 +53,11 @@ public:
 
         verticalLayout->addWidget(currentFloorLabel);
 
+        currentElevatorLabel = new QLabel(Passenger);
+        currentElevatorLabel->setObjectName(QString::fromUtf8("currentElevatorLabel"));
+
+        verticalLayout->addWidget(currentElevatorLabel);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
@@ -69,6 +74,7 @@ public:
         passengerLabel->setText(QCoreApplication::translate("Passenger", "Passenger i", nullptr));
         stateLabel->setText(QCoreApplication::translate("Passenger", "State", nullptr));
         currentFloorLabel->setText(QCoreApplication::translate("Passenger", "Current Floor", nullptr));
+        currentElevatorLabel->setText(QCoreApplication::translate("Passenger", "Current Elevator", nullptr));
     } // retranslateUi
 
 };

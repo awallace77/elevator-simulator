@@ -7,8 +7,9 @@
 // Nearest Car (NC) Strategy
 class NCStrategy : public AllocationStrategy {
     public:
-	NCStrategy();
-	virtual Elevator* allocate(FloorRequest*, std::vector<Elevator*>, int);
+        NCStrategy();
+        ~NCStrategy();
+        virtual Elevator* allocate(FloorRequest*, std::vector<Elevator*>&, int);
 
 };
 #endif

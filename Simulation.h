@@ -12,6 +12,7 @@
 #include "Floor.h"
 #include "ElevatorControl.h"
 #include "SimulationManager.h"
+#include "SimulationUpdater.h"
 #include <QTimer>
 
 namespace Ui {
@@ -26,16 +27,16 @@ public:
     ~Simulation();
 
     void start(
-	std::vector<ElevatorSetting*>, 
-	std::vector<PassengerSetting*>, 
-	BuildingSetting*,
-	int,
-	int,
-	int
+        std::vector<ElevatorSetting*>,
+        std::vector<PassengerSetting*>,
+        BuildingSetting*,
+        int,
+        int,
+        int
     );
 
 private slots:
-    void runTurn();
+    bool runTurn();
 
 private:
     Ui::Simulation *ui;
@@ -52,18 +53,19 @@ private:
     std::vector<Floor*> floors;
     ElevatorControl *ecs;
     SimulationManager *simManager;
+    SimulationUpdater *simUpdater;
     QTimer *timer;
 
     int numElevators;
     int numPassengers;
     int numFloors;
     void init(
-	std::vector<ElevatorSetting*>, 
-	std::vector<PassengerSetting*>, 
-	BuildingSetting*,
-	int,
-	int,
-	int
+        std::vector<ElevatorSetting*>,
+        std::vector<PassengerSetting*>,
+        BuildingSetting*,
+        int,
+        int,
+        int
     );
 
     void startSimulation();
@@ -71,10 +73,10 @@ private:
 
     // Init 
     void initElevators(std::vector<ElevatorSetting*>, int);
-    void initPassengers(std::vector<PassengerSetting*>, int);
+    void initPassengers(std::vector<PassengerSetting*>);
     void initFloors(int);
-    void addElevator(int, int, int, ElevatorControl*, QWidget*);
-    void addPassenger(int, int, int, QWidget*);
+    void addElevator(int, int, int, int, ElevatorControl*, QWidget*);
+    void addPassenger(int, int, int, Direction, QWidget*);
     void addFloor(int, ElevatorControl*, QWidget*);
 
     // UI 

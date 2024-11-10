@@ -4,7 +4,8 @@
 enum class PassengerState {
     Waiting,
     Riding,
-    Arrived
+    Arrived,
+    Away
 };
 
 #endif

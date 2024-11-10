@@ -31,6 +31,7 @@ public:
     QLabel *elevatorStateLabel;
     QLabel *elevatorCapactiyLabel;
     QLabel *elevatorDirectionLabel;
+    QLabel *elevatorPassengersLabel;
     QGridLayout *elevatorIndoorLayout;
     QSpacerItem *verticalSpacer;
 
@@ -78,6 +79,11 @@ public:
 
         elevatorInfoVLayout->addWidget(elevatorDirectionLabel);
 
+        elevatorPassengersLabel = new QLabel(Elevator);
+        elevatorPassengersLabel->setObjectName(QString::fromUtf8("elevatorPassengersLabel"));
+
+        elevatorInfoVLayout->addWidget(elevatorPassengersLabel);
+
 
         gridLayout->addLayout(elevatorInfoVLayout, 0, 1, 1, 1);
 
@@ -108,6 +114,7 @@ public:
         elevatorStateLabel->setText(QCoreApplication::translate("Elevator", "State", nullptr));
         elevatorCapactiyLabel->setText(QCoreApplication::translate("Elevator", "Capacity", nullptr));
         elevatorDirectionLabel->setText(QCoreApplication::translate("Elevator", "Direction", nullptr));
+        elevatorPassengersLabel->setText(QCoreApplication::translate("Elevator", "Passengers", nullptr));
     } // retranslateUi
 
 };

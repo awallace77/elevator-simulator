@@ -22,11 +22,19 @@ QString Speaker::getMessage() const {
 }
 
 void Speaker::soundBell() {
-    this->setMessage("Bing");
+    this->setMessage("Speaker says: Bing");
 }
 
 void Speaker::soundRing() {
-    this->setMessage("Ring Ring");
+    this->setMessage("Speaker says: Ring Ring");
+}
+
+void Speaker::soundWarning() {
+    this->setMessage("Speaker says: Warning Warning");
+}
+
+void Speaker::soundEmergency() {
+    this->setMessage("Speaker says: Emergency Emergency");
 }
 
 void Speaker::updateUI() {

@@ -58,7 +58,7 @@ static const uint qt_meta_data_Simulation[] = {
        1,    0,   19,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void,
+    QMetaType::Bool,
 
        0        // eod
 };
@@ -69,11 +69,11 @@ void Simulation::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<Simulation *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->runTurn(); break;
+        case 0: { bool _r = _t->runTurn();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
     }
-    (void)_a;
 }
 
 QT_INIT_METAOBJECT const QMetaObject Simulation::staticMetaObject = { {
